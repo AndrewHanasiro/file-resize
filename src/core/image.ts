@@ -1,12 +1,11 @@
-import { exec } from 'child_process'
-import { existsSync, mkdir, readFile, unlink, writeFile } from 'fs'
+import { existsSync, mkdir, readFile, unlink } from 'fs'
 import path from 'path'
 import { promisify } from 'util'
 import sharp from 'sharp'
-const execPromise = promisify(exec)
+import { randomBytes } from 'crypto'
+
 const mkdirPromise = promisify(mkdir)
 const unlinkPromise = promisify(unlink)
-const writeFilePromise = promisify(writeFile)
 const readFilePromise = promisify(readFile)
 
 export async function image(
@@ -17,15 +16,16 @@ export async function image(
   try {
     const tempFolder = path.join(process.cwd(), 'temp')
     const hasTempFolder = existsSync(tempFolder)
-
     if (!hasTempFolder) {
       await mkdirPromise(tempFolder)
     }
 
+    const hash = randomBytes(32).toString('hex')
+
     const compressFilePath = path.join(
       process.cwd(),
       'temp',
-      `compress.${extension}`
+      `compress-${hash}.${extension}`
     )
 
     const buffer = Buffer.from(file, 'base64')
