@@ -1,0 +1,20 @@
+{
+    "ignore": [
+        "**/*.test.ts",
+        "**/*.spec.ts",
+        ".git",
+        "node_modules"
+    ],
+    "watch": [
+        "src"
+    ],
+    "exec": "ts-node src/presentation/server.ts",
+    "ext": "ts",
+    "env": {
+        "TS_NODE_PROJECT": "./tsconfig.json"
+    },
+    "verbose": true,
+    "events": {
+        "start": "clear"
+    }
+}
